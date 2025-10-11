@@ -6,34 +6,32 @@ from launch_ros.actions import Node
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
+
 def generate_launch_description():
-  # RViZ2 settings
-  rviz2_config = os.path.join(
-      get_package_share_directory('ldlidar_stl_ros2'),
-      'rviz2',
-      'ldlidar.rviz'
-  )
+    # RViZ2 settings
+    rviz2_config = os.path.join(
+        get_package_share_directory("ldlidar_ros2"), "rviz2", "ldlidar.rviz"
+    )
 
-  rviz2_node = Node(
-      package='rviz2',
-      executable='rviz2',
-      name='rviz2_show_ld19',
-      arguments=['-d',rviz2_config],
-      output='screen'
-  )
+    rviz2_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2_show_ld19",
+        arguments=["-d", rviz2_config],
+        output="screen",
+    )
 
-  #Include LDLidar launch file
-  ldlidar_launch = IncludeLaunchDescription(
-      launch_description_source=PythonLaunchDescriptionSource([
-          get_package_share_directory('ldlidar_stl_ros2'),
-          '/launch/ld19.launch.py'
-      ])
-  )
+    # Include LDLidar launch file
+    ldlidar_launch = IncludeLaunchDescription(
+        launch_description_source=PythonLaunchDescriptionSource(
+            [get_package_share_directory("ldlidar_ros2"), "/launch/ld19.launch.py"]
+        )
+    )
 
-  # Define LaunchDescription variable
-  ld = LaunchDescription()
+    # Define LaunchDescription variable
+    ld = LaunchDescription()
 
-  ld.add_action(ldlidar_launch)
-  ld.add_action(rviz2_node)
+    ld.add_action(ldlidar_launch)
+    ld.add_action(rviz2_node)
 
-  return ld
+    return ld
